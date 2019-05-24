@@ -1,9 +1,11 @@
+var i = 0;
 var addPhone = document.querySelector('#phone-list')
 const form = document.querySelector('#add-phone-form')
 function createContact(doc) {
+    i++;
     addPhone.innerHTML = addPhone.innerHTML + `<li data-id="${doc.id}">
-    <div class="right-align" >
-    <img src="https://img.icons8.com/metro/20/000000/delete-sign.png" class="cross" onclick="remove(${doc.id})">
+    <div class="right-align">
+    <img src="https://img.icons8.com/metro/20/000000/delete-sign.png" class="cross" onclick="remove(${i})">
     </div>
       <div class="collapsible-header">Name: ${doc.data().name}</div>
       <div class="collapsible-body">
@@ -13,15 +15,6 @@ function createContact(doc) {
       </div>
     </li>`
     form.reset();
-    
-    // cross.addEventListener('click',(e) => {
-    //     e.stopPropagation();
-    //     let id = e.target.parentElement.parentElement.getAttribute('data-id');
-    //     console.log(id)
-    //     db.collection('contacts').doc(id).delete()
-    // })
-
-    
 }
 //getting data
 
@@ -60,6 +53,11 @@ sortByAddress.addEventListener('click', (e) => {
     });
 });
 // delete data
-function remove(id) {
-    db.collection('contacts').doc(id).delete()
+function remove(i) {
+    console.log(i)
+    var cross = document.querySelectorAll('.cross')
+    console.log(cross[i])
+        let id = cross[i-1].parentElement.parentElement.getAttribute('data-id');
+        console.log(id)
+        db.collection('contacts').doc(id).delete()
 }
