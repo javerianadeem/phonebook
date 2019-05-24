@@ -1,23 +1,22 @@
 var i = 0;
 var addPhone = document.querySelector('#phone-list')
 const form = document.querySelector('#add-phone-form')
+// creating contact function
 function createContact(doc) {
     i++;
     addPhone.innerHTML = addPhone.innerHTML + `<li data-id="${doc.id}">
     <div class="right-align">
-    <img src="https://img.icons8.com/metro/20/000000/delete-sign.png" class="cross" onclick="remove(${i})">
-    </div>
-      <div class="collapsible-header">Name: ${doc.data().name}</div>
+      <button class="btn waves waves-effect right-align">Edit</button>
+      <button class="btn waves waves-effect right-align cross" onclick="remove(${i})">Delete</button>
+      </div>
+      <div class="collapsible-header"><span>Name: ${doc.data().name}</span></div>
       <div class="collapsible-body">
       <span>Phone No.: ${doc.data().number}</span>
       <span>Address: ${doc.data().address}</span>
-      
       </div>
     </li>`
-    form.reset();
 }
 //getting data
-
 // db.collection('contacts').get().then((snapshot) => {
 //     snapshot.docs.forEach(doc => {
 //         createContact(doc)
@@ -31,6 +30,7 @@ form.addEventListener('submit',(e) => {
         number: form.number.value,
         address: form.address.value,
     });
+    form.reset()
 });
 // sorting by name
 var sortByName = document.querySelector('#sort-btn-name')
@@ -71,6 +71,5 @@ db.collection('contacts').onSnapshot(snapshot => {
             let li = addPhone.querySelector('[data-id='+ change.doc.id + ']');
             addPhone.removeChild(li);
         }
-
     })
 });
