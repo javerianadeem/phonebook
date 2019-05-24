@@ -18,11 +18,11 @@ function createContact(doc) {
 }
 //getting data
 
-db.collection('contacts').get().then((snapshot) => {
-    snapshot.docs.forEach(doc => {
-        createContact(doc)
-    });
-});
+// db.collection('contacts').get().then((snapshot) => {
+//     snapshot.docs.forEach(doc => {
+//         createContact(doc)
+//     });
+// });
 //saving data
 form.addEventListener('submit',(e) => {
     e.preventDefault();
@@ -36,6 +36,7 @@ form.addEventListener('submit',(e) => {
 var sortByName = document.querySelector('#sort-btn-name')
 sortByName.addEventListener('click', (e) => {
     addPhone.innerHTML = '';
+    i = 0;
     db.collection('contacts').orderBy('name').get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             createContact(doc)
@@ -46,6 +47,7 @@ sortByName.addEventListener('click', (e) => {
 var sortByAddress = document.querySelector('#sort-btn-address')
 sortByAddress.addEventListener('click', (e) => {
     addPhone.innerHTML = '';
+    i = 0;
     db.collection('contacts').orderBy('address').get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             createContact(doc)
@@ -54,10 +56,21 @@ sortByAddress.addEventListener('click', (e) => {
 });
 // delete data
 function remove(i) {
-    console.log(i)
     var cross = document.querySelectorAll('.cross')
-    console.log(cross[i])
         let id = cross[i-1].parentElement.parentElement.getAttribute('data-id');
-        console.log(id)
         db.collection('contacts').doc(id).delete()
 }
+// realtime listener
+db.collection('contacts').onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+        if(change.type == 'added'){
+            createContact(change.doc)
+        }
+        else if(change.type == 'removed'){
+            let li = addPhone.querySelector('[data-id='+ change.doc.id + ']');
+            addPhone.removeChild(li);
+        }
+
+    })
+});
