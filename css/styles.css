@@ -23,3 +23,6 @@ li{
 li span{
     display: block;
 }
+.cross {
+    cursor: pointer;
+}

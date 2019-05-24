@@ -3,7 +3,7 @@ const form = document.querySelector('#add-phone-form')
 function createContact(doc) {
     addPhone.innerHTML = addPhone.innerHTML + `<li data-id="${doc.id}">
     <div class="right-align" >
-    <img src="https://img.icons8.com/metro/20/000000/delete-sign.png" id="cross">
+    <img src="https://img.icons8.com/metro/20/000000/delete-sign.png" class="cross" onclick="remove(${doc.id})">
     </div>
       <div class="collapsible-header">Name: ${doc.data().name}</div>
       <div class="collapsible-body">
@@ -12,17 +12,17 @@ function createContact(doc) {
       
       </div>
     </li>`
-    var cross = document.querySelector('#cross')
-    cross.addEventListener('click',(e) => {
-        e.stopPropagation();
-        let id = e.target.parentElement.parentElement.getAttribute('data-id');
-        db.collection('contacts').doc(id).delete()
-    })
+    form.reset();
+    
+    // cross.addEventListener('click',(e) => {
+    //     e.stopPropagation();
+    //     let id = e.target.parentElement.parentElement.getAttribute('data-id');
+    //     console.log(id)
+    //     db.collection('contacts').doc(id).delete()
+    // })
 
     
 }
-
-
 //getting data
 
 db.collection('contacts').get().then((snapshot) => {
@@ -39,3 +39,27 @@ form.addEventListener('submit',(e) => {
         address: form.address.value,
     });
 });
+// sorting by name
+var sortByName = document.querySelector('#sort-btn-name')
+sortByName.addEventListener('click', (e) => {
+    addPhone.innerHTML = '';
+    db.collection('contacts').orderBy('name').get().then((snapshot) => {
+        snapshot.docs.forEach(doc => {
+            createContact(doc)
+        });
+    });
+});
+// sorting by address
+var sortByAddress = document.querySelector('#sort-btn-address')
+sortByAddress.addEventListener('click', (e) => {
+    addPhone.innerHTML = '';
+    db.collection('contacts').orderBy('address').get().then((snapshot) => {
+        snapshot.docs.forEach(doc => {
+            createContact(doc)
+        });
+    });
+});
+// delete data
+function remove(id) {
+    db.collection('contacts').doc(id).delete()
+}
