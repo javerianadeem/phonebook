@@ -1,18 +1,18 @@
 var i = 0;
 var addPhone = document.querySelector('#phone-list')
 const form = document.querySelector('#add-phone-form')
+const updateForm = document.querySelector('#update-phone-form')
 // creating contact function
 function createContact(doc) {
     i++;
     addPhone.innerHTML = addPhone.innerHTML + `<li data-id="${doc.id}">
-    <div class="right-align">
-      <button class="btn waves waves-effect right-align">Edit</button>
-      <button class="btn waves waves-effect right-align cross" onclick="remove(${i})">Delete</button>
-      </div>
-      <div class="collapsible-header"><span>Name: ${doc.data().name}</span></div>
+      <div class="collapsible-header"><span><strong>Name:</strong> ${doc.data().name}</span></div>
       <div class="collapsible-body">
-      <span>Phone No.: ${doc.data().number}</span>
-      <span>Address: ${doc.data().address}</span>
+      <span><strong>Phone No.:</strong> ${doc.data().number}</span>
+      <span><strong>Address:</strong> ${doc.data().address}</span>
+      </div>
+      <div class="right-align">
+      <button class="btn waves waves-effect right-align cross" onclick="remove(${i})">Delete</button>
       </div>
     </li>`
 }

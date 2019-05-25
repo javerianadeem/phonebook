@@ -1,6 +1,6 @@
-/* body{
-    
-} */
+body{
+   
+}
 h3{
     letter-spacing: 2px;
     margin-top: 80px;
@@ -18,7 +18,12 @@ li span{
 }
 .cross {
     cursor: pointer;
+    margin-top: 1%;
+    margin-right: 2%;
 }
 ul.collapsible li {
-    margin: 1%;
+    padding-bottom: 1%;
+}
+.collapsible-header, .collapsible-body {
+    background-color: rgb(243, 243, 186);
 }
